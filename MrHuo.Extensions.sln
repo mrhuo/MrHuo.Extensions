@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrHuo.Extensions", "MrHuo.Extensions\MrHuo.Extensions.csproj", "{926EA498-F7A4-46CD-A6A4-55202EB41A94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrHuo.Extensions.Test", "MrHuo.Extensions.Test\MrHuo.Extensions.Test.csproj", "{7D1AE4B1-60DD-42D6-B25C-5CE3A994D5C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{926EA498-F7A4-46CD-A6A4-55202EB41A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{926EA498-F7A4-46CD-A6A4-55202EB41A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{926EA498-F7A4-46CD-A6A4-55202EB41A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{926EA498-F7A4-46CD-A6A4-55202EB41A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D1AE4B1-60DD-42D6-B25C-5CE3A994D5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1AE4B1-60DD-42D6-B25C-5CE3A994D5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1AE4B1-60DD-42D6-B25C-5CE3A994D5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1AE4B1-60DD-42D6-B25C-5CE3A994D5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A00DD2F-D280-494B-8CDE-4F90882C6D57}
+	EndGlobalSection
+EndGlobal
