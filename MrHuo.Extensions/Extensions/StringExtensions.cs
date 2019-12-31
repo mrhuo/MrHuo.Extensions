@@ -187,6 +187,64 @@ public static class StringExtensions
     }
     #endregion
 
+    #region [IsNumeric]
+    /// <summary>
+    /// 该方法用于判断是否为数字（可带小数点）
+    /// <param name="value"></param>
+    /// </summary>
+    public static bool IsNumeric(this string value)
+    {
+        return Regex.IsMatch(value, @"^[+-]?\d*[.]?\d*$");
+    }
+    #endregion
+
+    #region [IsInt]
+    /// <summary>
+    /// 该方法用于判断是否为整形（不带小数点）
+    /// <param name="value"></param>
+    /// </summary>
+    public static bool IsInt(this string value)
+    {
+        return Regex.IsMatch(value, @"^[+-]?\d*$");
+    }
+    #endregion
+
+    #region [IsMobile]
+    /// <summary>
+    /// 验证一个字符串是否是电话号码
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static bool IsMobile(this string value)
+    {
+        return Regex.IsMatch(value, @"^1[345789][0-9]{9}$");
+    }
+    #endregion
+
+    #region [IsEmail]
+    /// <summary>
+    /// 验证一个字符串是否是电子邮件地址
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static bool IsEmail(this string value)
+    {
+        return Regex.IsMatch(value, @"^\s*([A-Za-z0-9_-]+(\.\w+)*@(\w+\.)+\w{2,5})\s*$");
+    }
+    #endregion
+
+    #region [IsUrl]
+    /// <summary>
+    /// 验证一个字符串是否为URL地址
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static bool IsUrl(this string value, bool includeProtocal = true)
+    {
+        return Regex.IsMatch(value, @"^((http|ftp|https):\/\/)" + (!includeProtocal ? "?" : "") + @"[\w]+(.[\w]+)([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])$");
+    }
+    #endregion
+
     #region [PadCenter]
     /// <summary>
     /// 返回一个原字符串居中,并使用空格填充至长度 width 的新字符串

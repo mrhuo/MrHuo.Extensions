@@ -50,6 +50,56 @@ namespace Tests
         }
 
         [Test]
+        public void TestIsNumeric()
+        {
+            Assert.True("+125.3554542".IsNumeric());
+            Assert.True("125".IsNumeric());
+            Assert.True("125.35".IsNumeric());
+            Assert.False("abc".IsNumeric());
+        }
+
+        [Test]
+        public void TestIsInt()
+        {
+            Assert.True("+125".IsInt());
+            Assert.False("+125.5".IsInt());
+            Assert.False("125.5".IsInt());
+            Assert.False("abc".IsInt());
+        }
+
+        [Test]
+        public void TestIsMobile()
+        {
+            Assert.True("13012341234".IsMobile());
+            Assert.True("14312341234".IsMobile());
+            Assert.False("1231341234".IsMobile());
+            Assert.False("123134123423".IsMobile());
+            Assert.False("abc".IsMobile());
+            Assert.False("+125".IsMobile());
+        }
+
+        [Test]
+        public void TestIsEmail()
+        {
+            Assert.True("13012341234@4234.com".IsEmail());
+            Assert.True("13012fwerewdf341234@4234.com".IsEmail());
+            Assert.False("13012341234".IsEmail());
+            Assert.False("13012341234@4234".IsEmail());
+        }
+
+        [Test]
+        public void TestIsUrl()
+        {
+            Assert.True("http://www.baidu.com/".IsUrl());
+            Assert.True("http://www.qq.com".IsUrl());
+            Assert.True("http://www.baidu.com/?kw=wrwer".IsUrl());
+            Assert.True("http://www.baidu.com?kw=wrwer&4fwer".IsUrl());
+            Assert.True("http://www.baidu.com?kw=wrwer&4fwer#wechat_redirect".IsUrl());
+            Assert.False("www.baidu.com".IsUrl());
+            Assert.True("www.baidu.com".IsUrl(includeProtocal: false));
+        }
+
+        [Test]
         public void TestCenter()
         {
             var str = "hello";
