@@ -1,11 +1,8 @@
-﻿using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
+﻿using MrHuo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 /// <summary>
 /// IEnumerable 扩展方法
@@ -16,39 +13,14 @@ public static class IEnumerableExtensions
     /// <summary>
     /// 将一个 IEnumerable 对象转换到 DataTable
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="table"></param>
-    /// <param name="tableName"></param>
-    /// <param name="columnDef"></param>
+    /// <typeparam name="T">任意类型</typeparam>
+    /// <param name="data">IEnumerable 对象</param>
+    /// <param name="columnDef">列定义，默认为 null，通过反射的方式确定列名</param>
+    /// <param name="tableName">表名，默认为null，取 nameof(T)</param>
     /// <returns></returns>
-    public static DataTable ToDataTable<T>(this IEnumerable<T> table, string tableName, Dictionary<string, Func<T, object>> columnDef)
+    public static DataTable ToDataTable<T>(this IEnumerable<T> data, Dictionary<string, Func<T, object>> columnDef = null, string tableName = null)
     {
-        var dataTable = new DataTable(tableName);
-        foreach (var item in columnDef)
-        {
-            dataTable.Columns.Add(new DataColumn(item.Key));
-        }
-        foreach (var row in table)
-        {
-            var dr = dataTable.NewRow();
-            foreach (var col in columnDef)
-            {
-                dr[col.Key] = col.Value(row);
-            }
-            dataTable.Rows.Add(dr);
-        }
-        return dataTable;
-    }
-    /// <summary>
-    /// 将一个 IEnumerable 对象转换到 DataTable
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="table"></param>
-    /// <param name="columnDef"></param>
-    /// <returns></returns>
-    public static DataTable ToDataTable<T>(this IEnumerable<T> table, Dictionary<string, Func<T, object>> columnDef)
-    {
-        return ToDataTable(table, typeof(T).Name, columnDef);
+        return DataTableHelper.IEnumerableToDataTable(data, columnDef, tableName);
     }
     #endregion
 
@@ -57,77 +29,38 @@ public static class IEnumerableExtensions
     /// 导出到 Excel 文件
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="table"></param>
-    /// <param name="columnDef"></param>
-    /// <param name="sheetName"></param>
-    /// <param name="saveFile"></param>
+    /// <param name="data"></param>
+    /// <param name="columnDef">列定义，默认为 null，通过反射的方式确定列名</param>
+    /// <param name="sheetName">Sheet名称，默认 Sheet1</param>
+    /// <param name="saveFile">Excel 文件路径，默认为空，创建一个临时文件</param>
+    /// <param name="includeTitleRow">是否包含标题行，默认为true（包含）</param>
     /// <returns></returns>
     public static string ToExcelFile<T>(
-        this IEnumerable<T> table,
-        Dictionary<string, Func<T, object>> columnDef,
+        this IEnumerable<T> data,
+        Dictionary<string, Func<T, object>> columnDef = null,
         string sheetName = "Sheet1",
-        string saveFile = null)
+        string saveFile = null,
+        bool includeTitleRow = true)
     {
-        if (string.IsNullOrEmpty(saveFile))
-        {
-            saveFile = Path.GetTempFileName();
-        }
-        if (!saveFile.EndsWith(".xls"))
-        {
-            saveFile += ".xls";
-        }
-        if (File.Exists(saveFile))
-        {
-            File.Delete(saveFile);
-        }
-        using (var stream = table.ToExcelStream(columnDef, sheetName))
-        {
-            using (FileStream fs = new FileStream(saveFile, FileMode.Create, FileAccess.Write))
-            {
-                byte[] data = stream.ToArray();
-                fs.Write(data, 0, data.Length);
-                fs.Flush();
-            }
-        }
-        return saveFile;
+        return ExcelHelper.ExportToFile(data, columnDef, sheetName, saveFile, includeTitleRow);
     }
 
     /// <summary>
-    /// 将一个 IEnumerable 对象输出到 Excel
+    /// 将一个 IEnumerable 对象输出到 Excel 内存流
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="table"></param>
-    /// <param name="columnDef">列定义</param>
+    /// <param name="data">IEnumerable</param>
+    /// <param name="columnDef">列定义，默认为 null，通过反射的方式确定列名</param>
+    /// <param name="sheetName">Sheet名称，默认 Sheet1</param>
+    /// <param name="includeTitleRow">是否包含标题行，默认为true（包含）</param>
     /// <returns></returns>
     public static MemoryStream ToExcelStream<T>(
-        this IEnumerable<T> table, 
-        Dictionary<string, Func<T, object>> columnDef,
-        string sheetName = "Sheet1")
+        this IEnumerable<T> data,
+        Dictionary<string, Func<T, object>> columnDef = null,
+        string sheetName = "Sheet1",
+        bool includeTitleRow = true)
     {
-        var workbook = new XSSFWorkbook();
-        var sheet1 = workbook.CreateSheet(sheetName);
-        //输出标题
-        var titleRow = sheet1.CreateRow(0);
-        var colIndex = 0;
-        foreach (var item in columnDef)
-        {
-            titleRow.CreateCell(colIndex++).SetCellValue(item.Key);
-        }
-        //输出内容
-        var rowIndex = 1;
-        foreach (var tableRow in table)
-        {
-            var row = sheet1.CreateRow(rowIndex ++);
-            colIndex = 0;
-            foreach (var col in columnDef)
-            {
-                row.CreateCell(colIndex++).SetCellValue($"{col.Value(tableRow)}");
-            }
-        }
-        var ms = new MemoryStream();
-        workbook.Write(ms);
-        ms.Flush();
-        return ms;
+        return ExcelHelper.ExportToMemoryStream(data, columnDef, sheetName, includeTitleRow);
     }
     #endregion
 }

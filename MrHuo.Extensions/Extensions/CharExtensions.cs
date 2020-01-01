@@ -3,6 +3,34 @@
 /// </summary>
 public static class CharExtensions
 {
+    /// <summary>
+    /// 小写转大写
+    /// </summary>
+    /// <param name="ch"></param>
+    /// <returns></returns>
+    public static char ToUpper(this char ch)
+    {
+        if (ch.IsLower())
+        {
+            ch = (char)(ch - 32);
+        }
+        return ch;
+    }
+
+    /// <summary>
+    /// 大写转小写
+    /// </summary>
+    /// <param name="ch"></param>
+    /// <returns></returns>
+    public static char ToLower(this char ch)
+    {
+        if (ch.IsUpper())
+        {
+            ch = (char)(ch + 32);
+        }
+        return ch;
+    }
+
     #region [IsUpper]
     /// <summary>
     /// 某个字符是否大写
