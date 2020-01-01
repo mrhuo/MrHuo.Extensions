@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 /// <summary>
-/// ICollectio 扩展方法
+/// ICollection 扩展方法
 /// </summary>
 public static class ICollectionExtensions
 {

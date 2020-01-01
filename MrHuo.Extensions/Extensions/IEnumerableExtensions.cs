@@ -11,7 +11,7 @@ public static class IEnumerableExtensions
 {
     #region [ToDataTable]
     /// <summary>
-    /// 将一个 IEnumerable 对象转换到 DataTable
+    /// IEnumerable 对象转换到 DataTable
     /// </summary>
     /// <typeparam name="T">任意类型</typeparam>
     /// <param name="data">IEnumerable 对象</param>
@@ -26,7 +26,7 @@ public static class IEnumerableExtensions
 
     #region [ToExcel]
     /// <summary>
-    /// 导出到 Excel 文件
+    /// IEnumerable 对象导出到 Excel 文件
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
@@ -46,7 +46,7 @@ public static class IEnumerableExtensions
     }
 
     /// <summary>
-    /// 将一个 IEnumerable 对象输出到 Excel 内存流
+    /// IEnumerable 对象输出到 Excel 内存流
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data">IEnumerable</param>

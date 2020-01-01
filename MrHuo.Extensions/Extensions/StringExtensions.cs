@@ -147,7 +147,7 @@ public static class StringExtensions
 
     #region [IsUpper]
     /// <summary>
-    /// 判断字符串中所有字符是否全部大写
+    /// 验证一个字符串所有字符是否全部大写
     /// </summary>
     /// <param name="str">字符串</param>
     /// <returns></returns>
@@ -168,7 +168,7 @@ public static class StringExtensions
 
     #region [IsLower]
     /// <summary>
-    /// 判断字符串中所有字符是否全部小写
+    /// 验证一个字符串所有字符是否全部小写
     /// </summary>
     /// <param name="str">字符串</param>
     /// <returns></returns>
@@ -189,7 +189,7 @@ public static class StringExtensions
 
     #region [IsNumeric]
     /// <summary>
-    /// 该方法用于判断是否为数字（可带小数点）
+    /// 验证一个字符串是否为数字（可带小数点）
     /// <param name="value"></param>
     /// </summary>
     public static bool IsNumeric(this string value)
@@ -200,7 +200,7 @@ public static class StringExtensions
 
     #region [IsInt]
     /// <summary>
-    /// 该方法用于判断是否为整形（不带小数点）
+    /// 验证一个字符串是否为整形（不带小数点）
     /// <param name="value"></param>
     /// </summary>
     public static bool IsInt(this string value)
@@ -211,7 +211,7 @@ public static class StringExtensions
 
     #region [IsMobile]
     /// <summary>
-    /// 验证一个字符串是否是电话号码
+    /// 验证一个字符串是否是手机号码
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -437,7 +437,7 @@ public static class StringExtensions
 
     #region [ToBytes]
     /// <summary>
-    /// 转换到字节
+    /// 字符串转换到字节
     /// </summary>
     /// <param name="str"></param>
     /// <param name="encoding">为空则默认编码是 UTF-8</param>
@@ -454,7 +454,7 @@ public static class StringExtensions
 
     #region [ToHex/HexStringToHexBytes/HexStringToString]
     /// <summary>
-    /// 将一个字符串转化成16进制字符串
+    /// 字符串转化成16进制字符串
     /// </summary>
     /// <param name="str">字符串</param>
     /// <returns></returns>
@@ -473,7 +473,7 @@ public static class StringExtensions
         return sb.ToString();
     }
     /// <summary>
-    /// 16进制的字符串转化到16禁止的字节数组
+    /// 16进制的字符串转化到16进制的字节数组
     /// </summary>
     /// <param name="hexString">16进制的字符串</param>
     /// <returns></returns>
@@ -604,7 +604,7 @@ public static class StringExtensions
     }
 
     /// <summary>
-    /// 将一个字符串HTML编码
+    /// 将一个字符串HTML解码
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
