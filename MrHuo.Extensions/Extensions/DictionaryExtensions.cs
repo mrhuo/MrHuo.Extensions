@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 
 /// <summary>
@@ -134,5 +135,22 @@ public static class DictionaryExtensions
                    let v = $"{kv.Value}".UrlEncode()
                    select $"{kv.Key}={kv.Value}").ToArray();
         return string.Join("&", arr);
+    }
+
+    /// <summary>
+    /// 将一个字典转化成 NameValueCollection 对象
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="dictionary"></param>
+    /// <returns></returns>
+    public static NameValueCollection ToNameValueCollection<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
+    {
+        var collection = new NameValueCollection();
+        foreach (var item in dictionary)
+        {
+            collection.Add($"{item.Key}", $"{item.Value}");
+        }
+        return collection;
     }
 }

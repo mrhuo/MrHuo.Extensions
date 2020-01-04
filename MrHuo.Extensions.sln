@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrHuo.Extensions", "MrHuo.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrHuo.Extensions.Test", "MrHuo.Extensions.Test\MrHuo.Extensions.Test.csproj", "{7D1AE4B1-60DD-42D6-B25C-5CE3A994D5C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{C708F22E-E61C-4135-BCE7-5BCCD9A0C64E}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

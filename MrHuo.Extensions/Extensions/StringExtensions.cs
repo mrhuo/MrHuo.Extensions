@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MrHuo.Extensions;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -452,6 +454,71 @@ public static class StringExtensions
     }
     #endregion
 
+    #region [ToFile]
+    /// <summary>
+    /// 字符串写入到文件
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="fileName"></param>
+    /// <param name="encoding"></param>
+    public static void ToFile(this string str, string fileName, Encoding encoding = null)
+    {
+        var bytes = str.ToBytes(encoding);
+        bytes.ToFile(fileName);
+    }
+    #endregion
+
+    #region [AppendToFile]
+    /// <summary>
+    /// 字符串追加到文件
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="fileName"></param>
+    /// <param name="encoding"></param>
+    public static void AppendToFile(this string str, string fileName, Encoding encoding = null)
+    {
+        var bytes = str.ToBytes(encoding);
+        bytes.AppendToFile(fileName);
+    }
+    #endregion
+
+    #region [CopyFileTo]
+    /// <summary>
+    /// 文件复制（注意：默认 overwrite 为 true，目标文件存在会被覆盖）
+    /// </summary>
+    /// <param name="fromFileName">源文件</param>
+    /// <param name="toFileName">目标文件</param>
+    /// <param name="overwrite">是否覆盖，默认为 true</param>
+    public static void CopyFileTo(this string fromFileName, string toFileName, bool overwrite = true)
+    {
+        File.Copy(fromFileName, toFileName, true);
+    }
+    #endregion
+
+    #region [MoveFileTo]
+    /// <summary>
+    /// 文件移动
+    /// </summary>
+    /// <param name="fromFileName"></param>
+    /// <param name="toFileName"></param>
+    public static void MoveFileTo(this string fromFileName, string toFileName)
+    {
+        File.Move(fromFileName, toFileName);
+    }
+    #endregion
+
+    #region [ToStream]
+    /// <summary>
+    /// 将一个文件读取到 MemoryStream
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static MemoryStream ToStream(this string fileName)
+    {
+        return new MemoryStream(File.ReadAllBytes(fileName));
+    }
+    #endregion
+
     #region [ToHex/HexStringToHexBytes/HexStringToString]
     /// <summary>
     /// 字符串转化成16进制字符串
@@ -468,7 +535,7 @@ public static class StringExtensions
         var sb = new StringBuilder();
         foreach (var item in bytes)
         {
-            sb.Append(item.ToString("X2"));
+            sb.Append(item.ToString("x2"));
         }
         return sb.ToString();
     }
@@ -592,6 +659,24 @@ public static class StringExtensions
     }
     #endregion
 
+    #region [ToFileMd5]
+    /// <summary>
+    /// 获取文件的 MD5
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static string ToFileMd5(this string fileName)
+    {
+        using (var fs = new FileStream(fileName, FileMode.Open))
+        {
+            var md5 = new MD5CryptoServiceProvider();
+            byte[] retVal = md5.ComputeHash(fs);
+            fs.Close();
+            return retVal.ToHex();
+        }
+    }
+    #endregion
+
     #region [HtmlEncode/HtmlDecode]
     /// <summary>
     /// 将一个字符串HTML编码
@@ -697,6 +782,74 @@ public static class StringExtensions
             length = str.Length - 1;
         }
         return str.Substring(start, length);
+    }
+    #endregion
+
+    #region [HttpGet]
+    /// <summary>
+    /// GET 请求 URL
+    /// </summary>
+    /// <param name="url">URL地址，非URL地址抛出异常</param>
+    /// <param name="throwException">是否抛出异常</param>
+    /// <returns></returns>
+    public static string HttpGet(this string url, bool throwException = false)
+    {
+        var response = HttpClientHelper.Get(url);
+        if (response.Error != null && throwException)
+        {
+            throw response.Error;
+        }
+        return response.Data;
+    }
+    /// <summary>
+    /// GET 请求 URL，反序列化为对象
+    /// </summary>
+    /// <param name="url">URL地址，非URL地址抛出异常</param>
+    /// <param name="throwException">是否抛出异常</param>
+    /// <returns></returns>
+    public static T HttpGet<T>(this string url, bool throwException = false)
+    {
+        var response = HttpClientHelper.Get<T>(url);
+        if (response.Error != null && throwException)
+        {
+            throw response.Error;
+        }
+        return response.Data;
+    }
+    #endregion
+
+    #region [HttpPost]
+    /// <summary>
+    /// POST 请求 URL
+    /// </summary>
+    /// <param name="url">URL地址，非URL地址抛出异常</param>
+    /// <param name="data">POST 数据</param>
+    /// <param name="throwException">是否抛出异常</param>
+    /// <returns></returns>
+    public static string HttpPost(this string url, Dictionary<string, object> data = null, bool throwException = false)
+    {
+        var response = HttpClientHelper.Post(url, data);
+        if (response.Error != null && throwException)
+        {
+            throw response.Error;
+        }
+        return response.Data;
+    }
+    /// <summary>
+    /// POST 请求 URL，反序列化为对象
+    /// </summary>
+    /// <param name="url">URL地址，非URL地址抛出异常</param>
+    /// <param name="data">POST 数据</param>
+    /// <param name="throwException">是否抛出异常</param>
+    /// <returns></returns>
+    public static T HttpPost<T>(this string url, Dictionary<string, object> data = null, bool throwException = false)
+    {
+        var response = HttpClientHelper.Post<T>(url, data);
+        if (response.Error != null && throwException)
+        {
+            throw response.Error;
+        }
+        return response.Data;
     }
     #endregion
 }

@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>http://github.com/mrhuo</Company>
-    <Description>很好用的扩展方法类库</Description>
+    <Description>非常好用的扩展方法类库，大大提高开发效率和代码质量。</Description>
     <Copyright>http://github.com/mrhuo</Copyright>
-    <PackageProjectUrl>http://github.com/mrhuo</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mrhuo/MrHuo.Extensions</PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
     <RepositoryUrl>https://github.com/mrhuo/MrHuo.Extensions</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
@@ -14,6 +14,12 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MrHuo.Extensions.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+    <PackageTags>Extensions</PackageTags>
+    <PackageReleaseNotes>非常好用的扩展方法类库，大大提高开发效率和代码质量。</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
