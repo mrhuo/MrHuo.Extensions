@@ -11,6 +11,36 @@ using System.Text;
 public static class StreamExtensions
 {
     /// <summary>
+    /// 使用读取流的方式打开文件，并返回 FileStream
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public static FileStream GetReadStream(this string filePath)
+    {
+        return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+    }
+
+    /// <summary>
+    /// 使用写入流的方式打开文件，并返回 FileStream
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public static FileStream GetWriteStream(this string filePath)
+    {
+        return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);
+    }
+
+    /// <summary>
+    /// 使用追加流的方式打开文件，并返回 FileStream
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public static FileStream GetAppendStream(this string filePath)
+    {
+        return new FileStream(filePath, FileMode.Append, FileAccess.Write);
+    }
+
+    /// <summary>
     /// 将可读的 Stream 写入到文件中
     /// </summary>
     /// <param name="stream">可读 Stream</param>
@@ -22,7 +52,7 @@ public static class StreamExtensions
         {
             throw new IOException("该Stream不可读");
         }
-        using (var fileStream = new FileStream(fileName, FileMode.OpenOrCreate,  FileAccess.Write))
+        using (var fileStream = fileName.GetWriteStream())
         {
             var bytes = new byte[stream.Length];
             stream.Read(bytes, 0, bytes.Length);
@@ -47,7 +77,7 @@ public static class StreamExtensions
         {
             throw new IOException("该Stream不可读");
         }
-        using (var fileStream = new FileStream(fileName, FileMode.Append, FileAccess.Write))
+        using (var fileStream = fileName.GetAppendStream())
         {
             var bytes = new byte[stream.Length];
             stream.Read(bytes, 0, bytes.Length);

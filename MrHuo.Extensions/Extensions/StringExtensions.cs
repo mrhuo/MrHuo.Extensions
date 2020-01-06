@@ -852,4 +852,40 @@ public static class StringExtensions
         return response.Data;
     }
     #endregion
+
+    #region [GetFileExtensions]
+    /// <summary>
+    /// 返回小写的文件扩展名
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static string GetFileExtensions(this string fileName)
+    {
+        return Path.GetExtension(fileName).ToLower();
+    }
+    #endregion
+
+    #region [IsNull]
+    /// <summary>
+    /// 判断字符串是否为 null
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static bool IsNull(this string str)
+    {
+        return str == null;
+    }
+    #endregion
+
+    #region [IsNullOrEmpty]
+    /// <summary>
+    /// 判断字符串是否为 null 或者 string.Empty
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty(this string str)
+    {
+        return string.IsNullOrEmpty(str);
+    }
+    #endregion
 }

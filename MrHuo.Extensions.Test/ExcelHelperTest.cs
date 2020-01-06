@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using MrHuo.Extensions;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,5 +80,30 @@ namespace Test
             var fileName = MrHuo.Extensions.ExcelHelper.ExportToFile(transferTaskDataTable);
             Assert.Pass($"TestExportDateTable: 已导出到【{fileName}】");
         }
+
+        [Test]
+        public void TestImport()
+        {
+            var excelFile = "E:\\test.xls";
+            var i = 0;
+            var ret = ExcelHelper.Import<Student>(excelFile, new List<(string PropertyName, int? ColumnIndex, Func<object, object> ValueProceed)>()
+            {
+                ("Index", null, data=> ++i),
+                ("姓名", 0, null),
+                ("年龄", 1, null),
+                ("性别", 2, null),
+                ("生日", null, data=> DateTime.Now),
+                ("123", null, data=> null)
+            });
+        }
+    }
+
+    class Student
+    {
+        public int Index { get; set; }
+        public string 姓名 { get; set; }
+        public int 年龄 { get; set; }
+        public string 性别 { get; set; }
+        public DateTime 生日 { get; set; }
     }
 }

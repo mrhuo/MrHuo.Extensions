@@ -1,4 +1,6 @@
-﻿using NPOI.XSSF.UserModel;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,6 +14,147 @@ namespace MrHuo.Extensions
     /// </summary>
     public static class ExcelHelper
     {
+        #region [ICellExtensions]
+        /// <summary>
+        /// 获取单元格的数据
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public static object GetCellValue(this ICell cell)
+        {
+            switch (cell.CellType)
+            {
+                case CellType.Numeric:
+                    return cell.NumericCellValue;
+                case CellType.Formula:
+                    return cell.CellFormula;
+                case CellType.Boolean:
+                    return cell.BooleanCellValue;
+                case CellType.Blank:
+                case CellType.String:
+                case CellType.Unknown:
+                default:
+                    try
+                    {
+                        return cell.StringCellValue;
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+                    }
+            }
+        }
+        #endregion
+
+        #region [Import]
+        public static List<T> Import<T>(
+            string excelFile,
+            List<(string PropertyName, int? ColumnIndex, Func<object, object> ValueProceed)> columnsDef,
+            bool includeTitleRow = true,
+            int titleRowNum = 1,
+            int sheetIndex = 0)
+            where T : new()
+        {
+            Ensure.FileExists(excelFile);
+            Ensure.NotNull(columnsDef, nameof(columnsDef));
+            Ensure.HasValue(columnsDef);
+
+            IWorkbook workbook = null;
+            FileStream hssfWorkbookFileStream = null;
+            var fileExt = excelFile.GetFileExtensions();
+            if (fileExt == ".xls")
+            {
+                hssfWorkbookFileStream = excelFile.GetReadStream();
+                workbook = new HSSFWorkbook(hssfWorkbookFileStream);
+            }
+            else
+            {
+                workbook = new XSSFWorkbook(excelFile);
+            }
+            var sheetNums = workbook.NumberOfSheets;
+            if (sheetNums == 0)
+            {
+                throw new Exception($"该 Excel 文件[{excelFile}]不存在任何 Sheet");
+            }
+            if (sheetIndex > sheetNums - 1)
+            {
+                throw new Exception($"该 Excel 文件共有 {sheetNums} 个 Sheet，不存在索引为 {sheetIndex} 的 Sheet");
+            }
+            var sheet = workbook.GetSheetAt(sheetIndex);
+            var rowNums = sheet.PhysicalNumberOfRows - (includeTitleRow ? titleRowNum : 0);
+            var startRowIndex = sheet.FirstRowNum + (includeTitleRow ? titleRowNum : 0);
+
+            var ret = new List<T>();
+            var properties = typeof(T).GetProperties();
+            for (int rowNo = 0; rowNo < rowNums; rowNo++)
+            {
+                var row = sheet.GetRow(startRowIndex + rowNo);
+                if (row == null)
+                {
+                    continue;
+                }
+                var cols = row.Cells;
+                if (cols == null || cols.Count == 0)
+                {
+                    continue;
+                }
+                var dataItem = new T();
+                var hasError = false;
+                foreach (var def in columnsDef)
+                {
+                    var property = dataItem.GetProperty(def.PropertyName);
+                    if (property == null)
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        object data = null;
+                        if (def.ColumnIndex == null)
+                        {
+                            if (def.ValueProceed != null)
+                            {
+                                data = def.ValueProceed(data);
+                            }
+                        }
+                        else
+                        {
+                            if (def.ColumnIndex.Value <= cols.Count - 1)
+                            {
+                                var col = cols[def.ColumnIndex.Value];
+                                if (col != null)
+                                {
+                                    object value = col.GetCellValue();
+                                    data = value.To(property.PropertyType);
+                                    if (def.ValueProceed != null)
+                                    {
+                                        data = def.ValueProceed(data);
+                                    }
+                                }
+                            }
+                        }
+                        dataItem.SetValue<T>(def.PropertyName, data);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("EXCEPTION: " + ex.ToString());
+                        hasError = true;
+                    }
+                }
+                if (!hasError)
+                {
+                    ret.Add(dataItem);
+                }
+            }
+            workbook.Close();
+            if (hssfWorkbookFileStream != null)
+            {
+                hssfWorkbookFileStream.Close();
+            }
+            return ret;
+        }
+        #endregion
+
         #region [ExportDataTable]
         /// <summary>
         /// 导出 DataTable 到 Excel 文件

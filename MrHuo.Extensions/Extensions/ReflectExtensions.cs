@@ -69,4 +69,51 @@ public static class ReflectExtensions
             }
         }
     }
+
+    /// <summary>
+    /// 直接获取对象的属性
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <param name="propertyName"></param>
+    /// <returns></returns>
+    public static PropertyInfo GetProperty<T>(this T obj, string propertyName)
+    {
+        return obj.GetType().GetProperty(propertyName);
+    }
+
+    /// <summary>
+    /// 直接对对象的属性赋值
+    /// <para>属性不存在或不可写时，不执行任何操作</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <param name="propertyName"></param>
+    /// <param name="data"></param>
+    public static void SetValue<T>(this T obj, string propertyName, object data)
+    {
+        var property = obj.GetProperty(propertyName);
+        if (property != null && property.CanWrite)
+        {
+            property.SetValue(obj, data);
+        }
+    }
+
+    /// <summary>
+    /// 直接获取对象属性的值
+    /// <para>属性不存在或不可读，返回 null</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <param name="propertyName"></param>
+    /// <returns></returns>
+    public static object GetValue<T>(this T obj, string propertyName)
+    {
+        var property = obj.GetProperty(propertyName);
+        if (property == null || !property.CanRead)
+        {
+            return null;
+        }
+        return property.GetValue(obj);
+    }
 }

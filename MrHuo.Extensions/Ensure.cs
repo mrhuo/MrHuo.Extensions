@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 /// <summary>
@@ -49,6 +50,23 @@ internal static class Ensure
         if (!File.Exists(filePath))
         {
            throw new FileNotFoundException($"文件[{filePath}]不存在", filePath);            
+        }
+    }
+
+    /// <summary>
+    /// 检查输入的文件的扩展名
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="extensions"></param>
+    public static void FileExtensions(string filePath, params string[] extensions)
+    {
+        if (!string.IsNullOrEmpty(filePath) && extensions.Length > 0)
+        {
+            var ext = Path.GetExtension(filePath).ToLower();
+            if (!extensions.Any(p=>ext == p))
+            {
+                throw new NotSupportedException($"不支持的扩展名为[{ext}]的文件，允许的扩展名为[{extensions.Join(",")}]");
+            }
         }
     }
 
