@@ -47,6 +47,16 @@ namespace MrHuo.Extensions
         #endregion
 
         #region [Import]
+        /// <summary>
+        /// 从 Excel 导入数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="excelFile">Excel 文件</param>
+        /// <param name="columnsDef">列定义</param>
+        /// <param name="includeTitleRow">是否包含标题行，默认包含</param>
+        /// <param name="titleRowNum">标题行数，默认1行</param>
+        /// <param name="sheetIndex">Sheet 索引</param>
+        /// <returns></returns>
         public static List<T> Import<T>(
             string excelFile,
             List<(string PropertyName, int? ColumnIndex, Func<object, object> ValueProceed)> columnsDef,

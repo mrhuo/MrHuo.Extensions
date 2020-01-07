@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System.Collections.Generic;
+using System.Linq;
+/// <summary>
 /// Char 扩展方法
 /// </summary>
 public static class CharExtensions
@@ -52,6 +54,19 @@ public static class CharExtensions
     public static bool IsLower(this char ch)
     {
         return ch >= 97 && ch <= 97 + 26;
+    }
+    #endregion
+
+    #region [ToString]
+    /// <summary>
+    /// 转化成拼接后的字符串
+    /// </summary>
+    /// <param name="enumerable"></param>
+    /// <param name="separator"></param>
+    /// <returns></returns>
+    public static string ToString(this IEnumerable<char> enumerable, string separator)
+    {
+        return string.Join(separator, enumerable.ToArray());
     }
     #endregion
 }

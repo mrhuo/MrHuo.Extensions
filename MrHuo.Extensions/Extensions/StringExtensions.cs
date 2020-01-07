@@ -865,6 +865,64 @@ public static class StringExtensions
     }
     #endregion
 
+    #region [HasFileExtension]
+    /// <summary>
+    /// 判断一个文件路径是否具有某个扩展名
+    /// <para>使用方法："/path/to/file.jpg".HasFileExtension(".jpg") 或 "/path/to/file.jpg".HasFileExtension("jpg")</para>
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="extension"></param>
+    /// <returns></returns>
+    public static bool HasFileExtension(this string filePath, string extension)
+    {
+        extension = (extension ?? "").ToLower();
+        extension = !extension.StartsWith(".") ? "." + extension : extension;
+        return Path.GetExtension(filePath).ToLower() == extension;
+    }
+    #endregion
+
+    #region [HasFileExtensions]
+    /// <summary>
+    /// 判断一个文件路径扩展名是否是某几个备选扩展名中的某个扩展名
+    /// <para>使用方法："/path/to/file.jpg".HasFileExtensions(".jpg", ".png", ".bmp")</para>
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="extensions"></param>
+    /// <returns></returns>
+    public static bool HasFileExtensions(this string filePath, params string[] extensions)
+    {
+        if (extensions == null || extensions.Length == 0)
+        {
+            return false;
+        }
+        foreach (var item in extensions)
+        {
+            if (filePath.HasFileExtension(item))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    #endregion
+
+    #region [ReadFileAllLines]
+    /// <summary>
+    /// 读取指定文件所有行，文件不存在时返回空 List
+    /// </summary>
+    /// <param name="filePath">文件路径</param>
+    /// <param name="encoding">文件编码，默认为 UTF-8</param>
+    /// <returns></returns>
+    public static List<string> ReadFileAllLines(this string filePath, Encoding encoding = null)
+    {
+        if (filePath.IsNullOrEmpty() || !File.Exists(filePath))
+        {
+            return new List<string>();
+        }
+        return File.ReadAllLines(filePath, encoding ?? DefaultEncoding).ToList();
+    }
+    #endregion
+
     #region [IsNull]
     /// <summary>
     /// 判断字符串是否为 null

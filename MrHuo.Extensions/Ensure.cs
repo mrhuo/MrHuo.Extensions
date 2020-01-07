@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 /// <summary>
 /// 检查输入参数
@@ -19,7 +17,7 @@ internal static class Ensure
     public static void NotNull(object obj, string paramName = null)
     {
         paramName = paramName ?? nameof(obj);
-        if (obj ==null)
+        if (obj == null)
         {
             throw new ArgumentNullException(paramName);
         }
@@ -49,7 +47,7 @@ internal static class Ensure
     {
         if (!File.Exists(filePath))
         {
-           throw new FileNotFoundException($"文件[{filePath}]不存在", filePath);            
+            throw new FileNotFoundException($"文件[{filePath}]不存在", filePath);
         }
     }
 
@@ -63,7 +61,7 @@ internal static class Ensure
         if (!string.IsNullOrEmpty(filePath) && extensions.Length > 0)
         {
             var ext = Path.GetExtension(filePath).ToLower();
-            if (!extensions.Any(p=>ext == p))
+            if (!extensions.Any(p => ext == p))
             {
                 throw new NotSupportedException($"不支持的扩展名为[{ext}]的文件，允许的扩展名为[{extensions.Join(",")}]");
             }

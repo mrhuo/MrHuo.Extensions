@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Net;
-using System.Text;
 
 namespace MrHuo.Extensions
 {
     /// <summary>
-    /// 请求API
+    /// HttpClient 帮助类
     /// </summary>
     public static class HttpClientHelper
     {
@@ -20,11 +16,11 @@ namespace MrHuo.Extensions
         /// <returns></returns>
         public static (string Data, Exception Error) Get(string api, Dictionary<string, object> headers = null)
         {
-            using (var client = new WebClient())
+            using (var client = new CookieWebClient())
             {
                 try
                 {
-                    if (headers!=null)
+                    if (headers != null)
                     {
                         foreach (var item in headers)
                         {
@@ -49,7 +45,7 @@ namespace MrHuo.Extensions
         /// <returns></returns>
         public static (T Data, Exception Error) Get<T>(string api, Dictionary<string, object> headers = null)
         {
-            using (var client = new WebClient())
+            using (var client = new CookieWebClient())
             {
                 try
                 {
@@ -79,7 +75,7 @@ namespace MrHuo.Extensions
         public static (string Data, Exception Error) Post(string api, Dictionary<string, object> data = null, Dictionary<string, object> headers = null)
         {
             data = data ?? new Dictionary<string, object>();
-            using (var client = new WebClient())
+            using (var client = new CookieWebClient())
             {
                 try
                 {
@@ -109,7 +105,7 @@ namespace MrHuo.Extensions
         public static (T Data, Exception Error) Post<T>(string api, Dictionary<string, object> data = null, Dictionary<string, object> headers = null)
         {
             data = data ?? new Dictionary<string, object>();
-            using (var client = new WebClient())
+            using (var client = new CookieWebClient())
             {
                 try
                 {

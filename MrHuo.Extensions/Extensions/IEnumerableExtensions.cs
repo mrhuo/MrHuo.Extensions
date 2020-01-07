@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 
 /// <summary>
 /// IEnumerable 扩展方法
@@ -28,7 +29,7 @@ public static class IEnumerableExtensions
     /// <summary>
     /// IEnumerable 对象导出到 Excel 文件
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">任意类型</typeparam>
     /// <param name="data"></param>
     /// <param name="columnDef">列定义，默认为 null，通过反射的方式确定列名</param>
     /// <param name="sheetName">Sheet名称，默认 Sheet1</param>
@@ -48,7 +49,7 @@ public static class IEnumerableExtensions
     /// <summary>
     /// IEnumerable 对象输出到 Excel 内存流
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">任意类型</typeparam>
     /// <param name="data">IEnumerable</param>
     /// <param name="columnDef">列定义，默认为 null，通过反射的方式确定列名</param>
     /// <param name="sheetName">Sheet名称，默认 Sheet1</param>
@@ -61,6 +62,32 @@ public static class IEnumerableExtensions
         bool includeTitleRow = true)
     {
         return ExcelHelper.ExportToMemoryStream(data, columnDef, sheetName, includeTitleRow);
+    }
+    #endregion
+
+    #region [Random]
+    /// <summary>
+    /// 随机排序后选择前 take 个元素，为 0 时返回全部
+    /// </summary>
+    /// <typeparam name="T">任意类型</typeparam>
+    /// <param name="data"></param>
+    /// <param name="take"></param>
+    /// <returns></returns>
+    public static IEnumerable<T> Random<T>(this IEnumerable<T> data, int take = 0)
+    {
+        return RandomHelper.RandomSome(data, take);
+    }
+
+    /// <summary>
+    /// 随机返回一个元素
+    /// </summary>
+    /// <typeparam name="T">任意类型</typeparam>
+    /// <param name="data"></param>
+    /// <param name="take"></param>
+    /// <returns></returns>
+    public static T Random<T>(this IEnumerable<T> data)
+    {
+        return RandomHelper.RandomOne(data);
     }
     #endregion
 }
