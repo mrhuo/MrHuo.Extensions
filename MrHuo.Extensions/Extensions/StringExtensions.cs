@@ -771,6 +771,18 @@ public static class StringExtensions
     /// <param name="start"></param>
     /// <param name="length"></param>
     /// <returns></returns>
+    public static string SubStringEx(this string str, int length)
+    {
+        return SubStringEx(str, 0, length);
+    }
+
+    /// <summary>
+    /// 扩展的 SubString，不会抛异常，如果超出范围，返回空字符串
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="start"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
     public static string SubStringEx(this string str, int start, int length)
     {
         if (str.Length == 0 || start < 0 || length < 0 || start > str.Length - 1)
@@ -920,6 +932,39 @@ public static class StringExtensions
             return new List<string>();
         }
         return File.ReadAllLines(filePath, encoding ?? DefaultEncoding).ToList();
+    }
+    #endregion
+
+    #region [ReadFileAllText]
+    /// <summary>
+    /// 读取指定文件所有内容
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="encoding"></param>
+    /// <returns></returns>
+    public static string ReadFileAllText(this string filePath, Encoding encoding = null)
+    {
+        if (filePath.IsNullOrEmpty() || !File.Exists(filePath))
+        {
+            return string.Empty;
+        }
+        return File.ReadAllText(filePath, encoding ?? DefaultEncoding);
+    }
+    #endregion
+
+    #region [ReadFileAllBytes]
+    /// <summary>
+    /// 读取指定文件所有字节
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public static byte[] ReadFileAllBytes(this string filePath)
+    {
+        if (filePath.IsNullOrEmpty() || !File.Exists(filePath))
+        {
+            return new byte[] { };
+        }
+        return File.ReadAllBytes(filePath);
     }
     #endregion
 
