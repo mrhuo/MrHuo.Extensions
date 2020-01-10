@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,10 +6,10 @@
     <Description>非常好用的扩展方法类库，大大提高开发效率和代码质量。</Description>
     <Copyright>http://github.com/mrhuo</Copyright>
     <PackageProjectUrl>https://github.com/mrhuo/MrHuo.Extensions</PackageProjectUrl>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryUrl>https://github.com/mrhuo/MrHuo.Extensions</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>霍小平</Authors>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MrHuo.Extensions.snk</AssemblyOriginatorKeyFile>
@@ -25,6 +25,10 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NPOI" Version="2.4.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="../LICENSE.txt" Pack="true" Visible="false" PackagePath=""/>
   </ItemGroup>
 
 </Project>

@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrHuo.Extensions.Test", "Mr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{C708F22E-E61C-4135-BCE7-5BCCD9A0C64E}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
