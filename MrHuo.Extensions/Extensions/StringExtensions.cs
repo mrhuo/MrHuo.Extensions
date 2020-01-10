@@ -991,4 +991,62 @@ public static class StringExtensions
         return string.IsNullOrEmpty(str);
     }
     #endregion
+
+    #region [SplitEx]
+    /// <summary>
+    /// 使用指定的分隔符，默认逗号分隔
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static string[] SplitEx(this string str)
+    {
+        return SplitEx(str, ",");
+    }
+    /// <summary>
+    /// 使用指定的分隔符，分割字符串，移除空字符串
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="separator"></param>
+    /// <returns></returns>
+    public static string[] SplitEx(this string str, string separator)
+    {
+        if (!string.IsNullOrEmpty(str))
+        {
+            return str.Split(separator.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+        }
+        return new string[] { };
+    }
+    #endregion
+
+    #region [Quote/Unquote]
+    /// <summary>
+    /// 加括号
+    /// </summary>
+    /// <param name="arg"></param>
+    /// <param name="startQuoteChar"></param>
+    /// <param name="endQuoteChar"></param>
+    /// <returns></returns>
+    public static string Quote(this string arg, string startQuoteChar = "\"", string endQuoteChar = "\"")
+    {
+        if (arg.StartsWith(startQuoteChar) && arg.EndsWith(endQuoteChar))
+        {
+            return arg;
+        }
+        return startQuoteChar + arg + endQuoteChar;
+    }
+
+    /// <summary>
+    /// 取消括号
+    /// </summary>
+    /// <param name="arg"></param>
+    /// <returns></returns>
+    public static string Unquote(this string arg)
+    {
+        if (arg.Length > 1 && ((arg[0] == '"' && arg[arg.Length - 1] == '"') || (arg[0] == '\'' && arg[arg.Length - 1] == '\'')))
+        {
+            return arg.Substring(1, arg.Length - 2);
+        }
+        return arg;
+    }
+    #endregion
 }

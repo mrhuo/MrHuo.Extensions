@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 /// <summary>
@@ -179,34 +180,6 @@ public static class ConvertExtensions
     public static double ToDouble(this object value)
     {
         return value.To<double>(default(double), false);
-    }
-    #endregion
-
-    #region [AsArray]
-    /// <summary>
-    /// 将一个数组转化类型成另外一个类型
-    /// <para>此方法会忽略类型转化失败的元素</para>
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="arr"></param>
-    /// <returns></returns>
-    public static T[] AsArray<T>(this object[] arr)
-    {
-        if (arr == null || arr.Length == 0)
-        {
-            return default(T[]);
-        }
-        List<T> retArr = new List<T>();
-        foreach (var item in arr)
-        {
-            try
-            {
-                var v = item.To<T>(default(T), false);
-                retArr.Add(v);
-            }
-            catch { }
-        }
-        return retArr.ToArray();
     }
     #endregion
 }
