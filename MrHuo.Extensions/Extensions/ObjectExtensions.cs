@@ -59,6 +59,39 @@ public static class ObjectExtensions
         }
         return ret;
     }
+
+    /// <summary>
+    /// 使用原对象中的某些属性，生成新对象
+    /// </summary>
+    /// <typeparam name="TSource">任意对象类型</typeparam>
+    /// <typeparam name="TDest">新对象类型</typeparam>
+    /// <param name="obj"></param>
+    /// <param name="func"></param>
+    /// <returns></returns>
+    public static TDest MapTo<TSource, TDest>(this TSource obj, Func<TSource, TDest> func)
+        where TDest: class
+    {
+        return func(obj);
+    }
+
+    /// <summary>
+    /// 对一个列表的多个元素执行 MapTo 操作，返回新的对象 List
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TDest"></typeparam>
+    /// <param name="sources"></param>
+    /// <param name="func"></param>
+    /// <returns></returns>
+    public static List<TDest> MapTo<TSource, TDest>(this IEnumerable<TSource> sources, Func<TSource, TDest> func)
+        where TDest: class
+    {
+        var list = new List<TDest>();
+        foreach (var item in sources)
+        {
+            list.Add(func(item));
+        }
+        return list;
+    }
     #endregion
 
     #region [Dump]

@@ -118,4 +118,25 @@ public static class IEnumerableExtensions
         return retArr.ToArray();
     }
     #endregion
+
+    #region [Join]
+    /// <summary>
+    /// 将一个集合数组展开成一个集合
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    public static IEnumerable<T> Flat<T>(this IEnumerable<IEnumerable<T>> data)
+    {
+        var ret = new List<T>();
+        foreach (var item1 in data)
+        {
+            foreach (var item2 in item1)
+            {
+                ret.Add(item2);
+            }
+        }
+        return ret;
+    }
+    #endregion
 }
