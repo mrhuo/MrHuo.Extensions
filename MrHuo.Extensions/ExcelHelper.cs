@@ -274,6 +274,11 @@ namespace MrHuo.Extensions
             {
                 File.Delete(saveFile);
             }
+            var dir = Path.GetDirectoryName(saveFile);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
             sheetName = sheetName ?? "Sheet1";
             using (var stream = ExportToMemoryStream(data, columnDef, sheetName, includeTitleRow))
             {
