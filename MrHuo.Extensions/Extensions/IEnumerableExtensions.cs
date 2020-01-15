@@ -119,7 +119,7 @@ public static class IEnumerableExtensions
     }
     #endregion
 
-    #region [Join]
+    #region [Flat]
     /// <summary>
     /// 将一个集合数组展开成一个集合
     /// </summary>

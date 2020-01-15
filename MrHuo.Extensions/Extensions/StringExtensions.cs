@@ -804,6 +804,21 @@ public static class StringExtensions
     /// <param name="url">URL地址，非URL地址抛出异常</param>
     /// <param name="throwException">是否抛出异常</param>
     /// <returns></returns>
+    public static byte[] HttpGetBytes(this string url, bool throwException = false)
+    {
+        var response = HttpClientHelper.GetBytes(url);
+        if (response.Error != null && throwException)
+        {
+            throw response.Error;
+        }
+        return response.Data;
+    }
+    /// <summary>
+    /// GET 请求 URL
+    /// </summary>
+    /// <param name="url">URL地址，非URL地址抛出异常</param>
+    /// <param name="throwException">是否抛出异常</param>
+    /// <returns></returns>
     public static string HttpGet(this string url, bool throwException = false)
     {
         var response = HttpClientHelper.Get(url);
@@ -831,6 +846,22 @@ public static class StringExtensions
     #endregion
 
     #region [HttpPost]
+    /// <summary>
+    /// POST 请求 URL
+    /// </summary>
+    /// <param name="url">URL地址，非URL地址抛出异常</param>
+    /// <param name="data">POST 数据</param>
+    /// <param name="throwException">是否抛出异常</param>
+    /// <returns></returns>
+    public static byte[] HttpPostBytes(this string url, Dictionary<string, object> data = null, bool throwException = false)
+    {
+        var response = HttpClientHelper.PostBytes(url, data);
+        if (response.Error != null && throwException)
+        {
+            throw response.Error;
+        }
+        return response.Data;
+    }
     /// <summary>
     /// POST 请求 URL
     /// </summary>

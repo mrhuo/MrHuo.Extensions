@@ -28,7 +28,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="../LICENSE.txt" Pack="true" Visible="false" PackagePath=""/>
+    <None Include="../LICENSE.txt" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
 </Project>

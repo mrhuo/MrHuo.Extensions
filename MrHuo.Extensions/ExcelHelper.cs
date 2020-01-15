@@ -333,6 +333,7 @@ namespace MrHuo.Extensions
                     foreach (var col in properties)
                     {
                         row.CreateCell(colIndex++).SetCellValue($"{col.GetValue(tableRow)}");
+                        sheet1.AutoSizeColumn(colIndex);
                     }
                 }
             }
@@ -358,6 +359,7 @@ namespace MrHuo.Extensions
                     foreach (var col in columnDef)
                     {
                         row.CreateCell(colIndex++).SetCellValue($"{col.Value(tableRow)}");
+                        sheet1.AutoSizeColumn(colIndex);
                     }
                 }
             }
